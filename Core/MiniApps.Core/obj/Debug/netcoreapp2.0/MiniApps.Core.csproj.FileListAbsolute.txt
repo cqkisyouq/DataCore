@@ -1,0 +1,6 @@
+D:\Work\MiniApps\MiniApps.Core\bin\Debug\netcoreapp2.0\MiniApps.Core.deps.json
+D:\Work\MiniApps\MiniApps.Core\bin\Debug\netcoreapp2.0\MiniApps.Core.dll
+D:\Work\MiniApps\MiniApps.Core\obj\Debug\netcoreapp2.0\MiniApps.Core.csproj.CoreCompileInputs.cache
+D:\Work\MiniApps\MiniApps.Core\obj\Debug\netcoreapp2.0\MiniApps.Core.AssemblyInfoInputs.cache
+D:\Work\MiniApps\MiniApps.Core\obj\Debug\netcoreapp2.0\MiniApps.Core.AssemblyInfo.cs
+D:\Work\MiniApps\MiniApps.Core\obj\Debug\netcoreapp2.0\MiniApps.Core.csprojResolveAssemblyReference.cache
