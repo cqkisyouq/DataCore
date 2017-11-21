@@ -12,7 +12,7 @@ namespace MiniApps.Core.Extension
         public static void AddEFMappings(this IServiceCollection service)
         {
            // service.AddTransient(typeof(IEntityMapping), typeof(EFEntityMapping<>));
-            service.AddSingleton(typeof(IRepository<>), typeof(EFRepository<>));
+            service.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
            // service.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
         }
     }
