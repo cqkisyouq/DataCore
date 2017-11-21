@@ -23,7 +23,7 @@ namespace MiniApps.Core.Base
             return _repository.Delete(entities)>0;
         }
 
-        public IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression)
+        public IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression=null)
         {
             return _repository.GetEntities(expression);
         }

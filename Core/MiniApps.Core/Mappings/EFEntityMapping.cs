@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MiniApps.Core.Mappings
 {
-    public  class EFEntityMapping<TEntity> : BaseEntityMapping<TEntity>, IEntityTypeConfiguration<TEntity> where TEntity : class
+    public  abstract class EFEntityMapping<TEntity> : BaseEntityMapping<TEntity>, IEntityTypeConfiguration<TEntity> where TEntity : class
     {
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder) { }
+        public abstract void Configure(EntityTypeBuilder<TEntity> builder);
 
     }
 }

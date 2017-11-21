@@ -20,6 +20,7 @@ namespace MiniApps.Core.Repositories
 
         public override int Delete(TEntity entity)
         {
+            entity.Deleted = true;
             var dbEntity=db.Entry(entity);
 
             if (dbEntity.State == EntityState.Detached)
@@ -34,6 +35,7 @@ namespace MiniApps.Core.Repositories
         {
             entities.AsParallel().ForAll(entity =>
             {
+                entity.Deleted = true;
                 var dbEntity = db.Entry(entity);
                 if (dbEntity.State == EntityState.Detached) dbEntity.State = EntityState.Modified;
             });
@@ -44,6 +46,8 @@ namespace MiniApps.Core.Repositories
 
         public override IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression)
         {
+            if (expression == null) return Entity.ToList();
+
             return Entity.Where(expression).ToList();
         }
 
