@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApps.Core", "MiniApps.Core\MiniApps.Core.csproj", "{7A9B6322-1BFE-439F-A968-C085CA6C6153}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{35600FFD-9827-4B25-9091-BC757A13F1B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{62570DCA-406D-4F47-8718-7246E3BCFFBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A9B6322-1BFE-439F-A968-C085CA6C6153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A9B6322-1BFE-439F-A968-C085CA6C6153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A9B6322-1BFE-439F-A968-C085CA6C6153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9B6322-1BFE-439F-A968-C085CA6C6153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62570DCA-406D-4F47-8718-7246E3BCFFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62570DCA-406D-4F47-8718-7246E3BCFFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62570DCA-406D-4F47-8718-7246E3BCFFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62570DCA-406D-4F47-8718-7246E3BCFFBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62570DCA-406D-4F47-8718-7246E3BCFFBE} = {35600FFD-9827-4B25-9091-BC757A13F1B1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E2A7274-A3C6-4C03-A9C6-B9B38EA1649B}
+	EndGlobalSection
+EndGlobal
