@@ -19,17 +19,20 @@ namespace DataTest.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            var ds=userService.GetEntities(x => x.Name.Length > 0).FirstOrDefault();
-            userService.Insert(new EFDataAuth.Test.Domain.Data.Users() { Name="1111",Phone="123123123"});
-            return new string[] { "value1", "value2" };
+            var ds = userService.GetEntities(x => x.Name.Length > 0).ToList();
+            var ids=ds.Select(x => x.Id).ToList();
+            var items=userService.GetByIds(ids);
+            var item = userService.GetById("12312");
+            return Ok(ds);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            
             return "value";
         }
 

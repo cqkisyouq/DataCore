@@ -6,21 +6,37 @@ using System.Text;
 
 namespace MiniApps.Core.Interface
 {
-    public interface IBaseService<TEntity> where TEntity : IBaseEntity
+    public interface IBaseService { }
+    public interface IBaseService<TEntity>: IBaseService
     {
+        IQueryable<TEntity> Get(Func<IQueryable<TEntity>, IQueryable<TEntity>> func);
+
+        /// <summary>
+        /// 根据ID 获取对象
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        TEntity GetById<TId>(TId id);
+
+        /// <summary>
+        /// 根据ID列表获取对象集
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        IList<TEntity> GetByIds<TId>(IEnumerable<TId> ids);
         /// <summary>
         /// 根据条件获取实体集合
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression);
+        IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> func);
 
         /// <summary>
-        /// 根据ID获取实体
+        /// 根据条件获取实体
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="func">条件</param>
         /// <returns></returns>
-        TEntity GetEntity(object id);
+        TEntity GetEntity(Expression<Func<TEntity, bool>> func);
         /// <summary>
         /// 更新实体数据
         /// </summary>

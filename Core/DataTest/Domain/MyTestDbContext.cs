@@ -12,7 +12,5 @@ namespace EFDataAuth.Test.Domain
         {
 
         }
-        public DbSet<Users> Users { get; set; }
-        public  DbSet<Adress> Adress { get; set; }
     }
 }

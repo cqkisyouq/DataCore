@@ -8,11 +8,16 @@ using System.Linq.Expressions;
 
 namespace MiniApps.Core.Repositories
 {
-    public class EFRepository<TEntity> : BaseRepository<TEntity> where TEntity :BaseEnity<Guid>,IBaseEntity
+    public class EFRepository<TEntity> : BaseRepository<TEntity> where TEntity :BaseEnity<Guid>
     {
-        public DbContext db { get; }
+        public IEFDataContext db { get; }
         public DbSet<TEntity> Entity { get; }
-        public EFRepository(DbContext dbContext)
+
+        public override IQueryable<TEntity> Queryable =>Entity;
+
+        public override IQueryable<TEntity> QueryableNoTracking => Queryable.AsNoTracking();
+
+        public EFRepository(IEFDataContext dbContext)
         {
             db = dbContext;
             Entity = db.Set<TEntity>();
@@ -27,72 +32,89 @@ namespace MiniApps.Core.Repositories
             {
                 dbEntity.State = EntityState.Modified;
             }
-
-            return db.SaveChanges();
+            return 1;
         }
 
         public override int Delete(IEnumerable<TEntity> entities)
         {
             entities.AsParallel().ForAll(entity =>
             {
-                entity.Deleted = true;
-                var dbEntity = db.Entry(entity);
-                if (dbEntity.State == EntityState.Detached) dbEntity.State = EntityState.Modified;
+                Delete(entity);
             });
-
-            return db.SaveChanges();
+            
+            return entities.Count();
 
         }
 
         public override IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression)
         {
-            if (expression == null) return Entity.ToList();
+            if (expression == null) return Queryable.ToList();
 
-            return Entity.Where(expression).ToList();
+            return Queryable.Where(expression).ToList();
         }
 
         public override TEntity GetEntity(object id)
         {
-            return Entity.FirstOrDefault(x=>x.Id.Equals(id));
+            if (id == null || !Guid.TryParse(id.ToString(), out Guid gid)) return default(TEntity);
+
+            return Queryable.FirstOrDefault(x=>x.Id==gid);
+        }
+
+        public override IList<TEntity> GetEntities(IEnumerable<object> ids)
+        {
+            if (ids == null || ids.Count() <= 0) return default(IList<TEntity>);
+            
+            return Queryable.Where(x => ids.Contains(x.Id)).ToList();
         }
 
         public override TEntity Insert(TEntity entity)
         {
+            entity.CreateTime = DateTime.Now;
+            entity.UpdateTime = DateTime.Now;
             Entity.Add(entity);
-             db.SaveChanges();
+
             return entity;
         }
 
         public override IEnumerable<TEntity> Insert(IEnumerable<TEntity> entities)
         {
-            Entity.AddRange(entities);
+            foreach (var item in entities)
+            {
+                Insert(item);
+            }
 
-             db.SaveChanges();
             return entities;
         }
 
         public override int Remove(TEntity entity)
         {
             Entity.Remove(entity);
-            return db.SaveChanges();
+            return 1;
         }
 
         public override int Remove(IEnumerable<TEntity> entities)
         {
             Entity.RemoveRange(entities);
-            return db.SaveChanges();
+            return entities.Count();
         }
 
         public override int Update(TEntity entity)
         {
             Entity.Update(entity);
-            return db.SaveChanges();
+            return 1;
         }
 
         public override int Update(IEnumerable<TEntity> entities)
         {
             Entity.UpdateRange(entities);
+            return entities.Count();
+        }
+
+        public override int SaveChanges()
+        {
             return db.SaveChanges();
         }
+
+
     }
 }

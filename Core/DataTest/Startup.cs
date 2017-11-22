@@ -34,10 +34,9 @@ namespace DataTest
             {
                 option.UseSqlServer(conString);
             });
-            services.AddTransient(typeof(DbContext), typeof(MyTestDbContext));
 
             services.AddMvc();
-            services.AddEFMappings();
+            services.AddEFMappings<MyTestDbContext>();
             services.AddScoped<IUserService, UserService>();
         }
 

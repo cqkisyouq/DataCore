@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace MiniApps.Core.Base
 {
-    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class,IBaseEntity
+    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
     {
         protected IRepository<TEntity> _repository;
         public BaseService(IRepository<TEntity> repository)
@@ -23,44 +24,79 @@ namespace MiniApps.Core.Base
             return _repository.Delete(entities)>0;
         }
 
-        public IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> expression=null)
+        public IQueryable<TEntity> Get(Func<IQueryable<TEntity>, IQueryable<TEntity>>  func=null)
         {
-            return _repository.GetEntities(expression);
+            var query = this._repository.Queryable;
+            if (func == null) return query;
+            query= func.Invoke(query);
+            return query;
         }
 
-        public virtual TEntity GetEntity(object id)
+        public TEntity GetById<TId>(TId id)
         {
             return _repository.GetEntity(id);
         }
 
+        public IList<TEntity> GetByIds<TId>(IEnumerable<TId> ids)
+        {
+            if (ids == null || ids.Count() <= 0) return default(IList<TEntity>);
+
+            var newIds=ids.Where(x=>!x.Equals(default(TId))).Select(x => (object)x);
+
+            return _repository.GetEntities(newIds);
+        }
+
+        public IList<TEntity> GetEntities(Expression<Func<TEntity, bool>> func = null)
+        {
+            if (func == null) return this.Get().ToList();
+
+            return this.Get(query => query.Where(func)).ToList();
+        }
+
+        public virtual TEntity GetEntity(Expression<Func<TEntity, bool>> func)
+        {
+            if (func == null) return default(TEntity);
+
+            return this.Get(query=>query.Where(func)).FirstOrDefault();
+        }
+
         public virtual TEntity Insert(TEntity entity)
         {
-            return _repository.Insert(entity);
+            entity= _repository.Insert(entity);
+            _repository.SaveChanges();
+            return entity;
         }
 
         public virtual IEnumerable<TEntity> Insert(IEnumerable<TEntity> entities)
         {
-            return _repository.Insert(entities);
+            entities = _repository.Insert(entities);
+            _repository.SaveChanges();
+            return entities;
         }
 
         public virtual bool Remove(TEntity entity)
         {
-            return _repository.Remove(entity)==1;
+            _repository.Remove(entity);
+
+            return _repository.SaveChanges()==1;
         }
 
         public virtual bool Remove(IEnumerable<TEntity> entities)
         {
-            return _repository.Remove(entities)>0;
+            _repository.Remove(entities);
+            return  _repository.SaveChanges()>0;
         }
 
         public virtual bool Update(TEntity entity)
         {
-            return _repository.Update(entity)==1;
+            _repository.Update(entity);
+            return _repository.SaveChanges()==1;
         }
 
         public virtual int Update(IEnumerable<TEntity> entities)
         {
-            return _repository.Update(entities);
+             _repository.Update(entities);
+            return _repository.SaveChanges();
         }
     }
 }

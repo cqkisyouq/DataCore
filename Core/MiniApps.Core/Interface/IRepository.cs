@@ -6,8 +6,12 @@ using System.Text;
 
 namespace MiniApps.Core.Interface
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository { }
+    public interface IRepository<TEntity>: IRepository where TEntity : class
     {
+        
+        IQueryable<TEntity> Queryable { get; }
+        IQueryable<TEntity> QueryableNoTracking { get;}
         /// <summary>
         /// 根据条件获取实体集合
         /// </summary>
@@ -21,6 +25,14 @@ namespace MiniApps.Core.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         TEntity GetEntity(object id);
+
+        /// <summary>
+        /// 根据ID获取实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        IList<TEntity> GetEntities(IEnumerable<object> ids);
+
         /// <summary>
         /// 更新实体数据
         /// </summary>
@@ -69,5 +81,11 @@ namespace MiniApps.Core.Interface
         /// <param name="entities"></param>
         /// <returns></returns>
         int Remove(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 执行存储
+        /// </summary>
+        /// <returns></returns>
+        int SaveChanges();
     }
 }

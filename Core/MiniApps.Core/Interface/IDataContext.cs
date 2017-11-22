@@ -4,7 +4,12 @@ using System.Text;
 
 namespace MiniApps.Core.Interface
 {
-    public interface IDataContext<TContext>
+    public interface IDataContext
+    {
+
+    }
+
+    public interface IDataContext<TContext>:IDataContext
     {
         TContext Database { get; }
     }
