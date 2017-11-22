@@ -55,8 +55,8 @@ namespace MiniApps.Core.Repositories
 
         public override TEntity GetEntity(object id)
         {
-            if (id == null || !Guid.TryParse(id.ToString(), out Guid gid)) return default(TEntity);
-
+            if (id == null || Guid.TryParse(id.ToString(), out Guid gid)) return default(TEntity);
+           
             return Queryable.FirstOrDefault(x=>x.Id==gid);
         }
 
